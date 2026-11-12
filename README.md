@@ -23,6 +23,23 @@ Real platforms like Spotify and YouTube blend two approaches: **collaborative fi
 
 **`UserProfile` features:** `favorite_genre`, `favorite_mood`, `target_energy`, `likes_acoustic`
 
+### Algorithm Recipe
+
+Each song is scored out of 5.0:
+
+- **+2.0** if the song's genre matches `favorite_genre`
+- **+1.0** if the song's mood matches `favorite_mood`
+- **up to +1.5** for energy closeness: `1.5 × (1 − |song.energy − target_energy|)`
+- **up to +0.5** for acoustic fit: `0.5 × acousticness` if `likes_acoustic`, otherwise `0.5 × (1 − acousticness)`
+
+Every song in the CSV is scored, the list is sorted from highest to lowest, and the top *k* are recommended.
+
+### Expected Biases
+
+- **Genre dominates.** A song in the wrong genre with the perfect mood and energy can still lose to a same-genre song with the wrong mood.
+- **Exact matching is strict.** "indie pop" gets no credit from a "pop" fan, and "chill" gets none from a "relaxed" listener.
+- **Small, uneven catalog.** Lofi has 3 songs, but most genres have only 1, so fans of rarer genres quickly run out of good matches.
+
 ---
 
 ## Getting Started

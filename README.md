@@ -17,17 +17,11 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+Real platforms like Spotify and YouTube blend two approaches: **collaborative filtering**, which recommends songs liked by users with similar behavior (plays, skips, likes, playlist adds), and **content-based filtering**, which recommends songs whose attributes (genre, tempo, energy, mood) resemble what you already like. My simulation is content-based, since it has a song catalog and a single user's taste profile but no other listeners. It will prioritize matching the user's preferred genre first, then how *close* a song's energy is to the user's target, with mood and acoustic sound as smaller factors.
 
-Some prompts to answer:
+**`Song` features:** `genre`, `mood`, `energy`, `acousticness` (plus `tempo_bpm`, `valence`, `danceability` stored for later experiments)
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
-
-You can include a simple diagram or bullet list if helpful.
+**`UserProfile` features:** `favorite_genre`, `favorite_mood`, `target_energy`, `likes_acoustic`
 
 ---
 

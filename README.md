@@ -79,15 +79,38 @@ You can add more tests in `tests/test_recommender.py`.
 
 ## Sample Recommendation Output
 
-Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
+Output of `python -m src.main` with the default pop/happy profile:
 
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
+Loaded songs: 18
+
+Profile: genre=pop, mood=happy, energy=0.8, likes_acoustic=False
+
+Top recommendations:
+
+1. Sunrise City by Neon Echo  [4.88 / 5.00]
+     - genre match: pop (+2.0)
+     - mood match: happy (+1.0)
+     - energy 0.82 vs target 0.80 (+1.47)
+     - acoustic fit (+0.41)
+
+2. Gym Hero by Max Pulse  [3.78 / 5.00]
+     - genre match: pop (+2.0)
+     - energy 0.93 vs target 0.80 (+1.30)
+     - acoustic fit (+0.47)
+
+3. Rooftop Lights by Indigo Parade  [2.77 / 5.00]
+     - mood match: happy (+1.0)
+     - energy 0.76 vs target 0.80 (+1.44)
+     - acoustic fit (+0.33)
+
+4. Concrete Verses by Blockwise  [1.93 / 5.00]
+     - energy 0.78 vs target 0.80 (+1.47)
+     - acoustic fit (+0.46)
+
+5. Night Drive Loop by Neon Echo  [1.81 / 5.00]
+     - energy 0.75 vs target 0.80 (+1.42)
+     - acoustic fit (+0.39)
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->

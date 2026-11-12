@@ -11,7 +11,7 @@ Your goal is to:
 - Evaluate what your system gets right and wrong
 - Reflect on how this mirrors real world AI recommenders
 
-Replace this paragraph with your own summary of what your version does.
+My version is called **VibeCheck 1.0**. It recommends the top 5 songs from an 18-song catalog. The user picks a favorite genre, a favorite mood, a target energy level, and whether they like acoustic music. Each song gets a score based on how well it matches. Every recommendation shows the reasons behind its score.
 
 ---
 
@@ -79,36 +79,29 @@ You can add more tests in `tests/test_recommender.py`.
 
 ## Sample Recommendation Output
 
-Output of `python -m src.main` with the default pop/happy profile:
+The default High-Energy Pop profile (first of the 6 profiles `python -m src.main` prints):
 
 ```
-Loaded songs: 18
-
+=== High-Energy Pop ===
 Profile: genre=pop, mood=happy, energy=0.8, likes_acoustic=False
 
-Top recommendations:
-
-1. Sunrise City by Neon Echo  [4.88 / 5.00]
+1. Sunrise City by Neon Echo  [4.88]
      - genre match: pop (+2.0)
      - mood match: happy (+1.0)
      - energy 0.82 vs target 0.80 (+1.47)
      - acoustic fit (+0.41)
-
-2. Gym Hero by Max Pulse  [3.78 / 5.00]
+2. Gym Hero by Max Pulse  [3.78]
      - genre match: pop (+2.0)
      - energy 0.93 vs target 0.80 (+1.30)
      - acoustic fit (+0.47)
-
-3. Rooftop Lights by Indigo Parade  [2.77 / 5.00]
+3. Rooftop Lights by Indigo Parade  [2.77]
      - mood match: happy (+1.0)
      - energy 0.76 vs target 0.80 (+1.44)
      - acoustic fit (+0.33)
-
-4. Concrete Verses by Blockwise  [1.93 / 5.00]
+4. Concrete Verses by Blockwise  [1.93]
      - energy 0.78 vs target 0.80 (+1.47)
      - acoustic fit (+0.46)
-
-5. Night Drive Loop by Neon Echo  [1.81 / 5.00]
+5. Night Drive Loop by Neon Echo  [1.81]
      - energy 0.75 vs target 0.80 (+1.42)
      - acoustic fit (+0.39)
 ```
@@ -119,38 +112,26 @@ Top recommendations:
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
-
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+- **Six user profiles.** I tested three normal listeners (pop, lofi, rock) and three tricky ones. The tricky ones were a "sad but high-energy" user, a genre not in the catalog (k-pop), and the pop profile typed with capital letters. Full outputs are in the [model card](model_card.md).
+- **Weight shift.** I cut the genre weight from 2.0 to 1.0 and doubled energy from 1.5 to 3.0. Rooftop Lights passed Gym Hero for the pop fan, which felt better. But the k-pop fan got a country song at #2, which felt worse. The results were different, not clearly better, so I kept the original weights.
 
 ---
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
+- **Exact word matching.** "indie pop" gets no credit from a pop fan. Typing "Pop" instead of "pop" gets no genre or mood points at all.
+- **Labels beat sound.** A user who wanted high energy got a quiet folk song at #1 because its genre and mood matched.
+- **Tiny, uneven catalog.** Only 18 songs. Lofi has 3, but most genres have just 1.
+- **No real listening data.** It ignores lyrics, popularity, and what people actually play or skip.
 
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+More detail is in the model card.
 
 ---
 
 ## Reflection
 
-Read and complete `model_card.md`:
+Full details are in the [**Model Card**](model_card.md).
 
-[**Model Card**](model_card.md)
+A recommender doesn't need to be complicated to feel smart. Mine is just a checklist: points for matching genre and mood, and points for being close in energy. Then it sorts the songs. Even so, a pop fan getting Sunrise City at #1 feels like a real recommendation. Real apps also score and rank songs, but they use far more data and signals, like skips, replays, and what similar users liked.
 
-Write 1 to 2 paragraphs here about what you learned:
-
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
-
-
-
+Bias can come from small choices. Giving genre the most points meant one label could beat everything else. Lofi fans got three strong matches, but metal and folk fans got only one, just because of what was in the catalog. Exact word matching meant a capital letter could ruin a whole list. None of this was on purpose, but it would still treat some users worse than others.

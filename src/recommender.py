@@ -41,6 +41,11 @@ class Recommender:
         return "; ".join(reasons)
 
 
+GENRE_WEIGHT = 2.0
+MOOD_WEIGHT = 1.0
+ENERGY_WEIGHT = 1.5
+ACOUSTIC_WEIGHT = 0.5
+
 INT_FIELDS = {"id"}
 FLOAT_FIELDS = {"energy", "tempo_bpm", "valence", "danceability", "acousticness"}
 
@@ -64,23 +69,23 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     reasons = []
 
     if song["genre"] == user_prefs["favorite_genre"]:
-        score += 2.0
-        reasons.append(f"genre match: {song['genre']} (+2.0)")
+        score += GENRE_WEIGHT
+        reasons.append(f"genre match: {song['genre']} (+{GENRE_WEIGHT:.1f})")
 
     if song["mood"] == user_prefs["favorite_mood"]:
-        score += 1.0
-        reasons.append(f"mood match: {song['mood']} (+1.0)")
+        score += MOOD_WEIGHT
+        reasons.append(f"mood match: {song['mood']} (+{MOOD_WEIGHT:.1f})")
 
-    energy_points = 1.5 * (1 - abs(song["energy"] - user_prefs["target_energy"]))
+    energy_points = ENERGY_WEIGHT * (1 - abs(song["energy"] - user_prefs["target_energy"]))
     score += energy_points
     reasons.append(
         f"energy {song['energy']:.2f} vs target {user_prefs['target_energy']:.2f} (+{energy_points:.2f})"
     )
 
     if user_prefs["likes_acoustic"]:
-        acoustic_points = 0.5 * song["acousticness"]
+        acoustic_points = ACOUSTIC_WEIGHT * song["acousticness"]
     else:
-        acoustic_points = 0.5 * (1 - song["acousticness"])
+        acoustic_points = ACOUSTIC_WEIGHT * (1 - song["acousticness"])
     score += acoustic_points
     reasons.append(f"acoustic fit (+{acoustic_points:.2f})")
 
